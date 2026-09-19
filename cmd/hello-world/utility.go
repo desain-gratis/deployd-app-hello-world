@@ -28,9 +28,16 @@ func startHttpListener(ctx context.Context, wg *sync.WaitGroup, router *httprout
 		})
 	}
 
+	withLogs := func(_ http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			log.Info().Msgf("Request log: %v", r.URL.String())
+			router.ServeHTTP(w, r)
+		})
+	}
+
 	server := &http.Server{
 		Addr:    address,
-		Handler: withCors(router),
+		Handler: withCors(withLogs(router)),
 		BaseContext: func(l net.Listener) context.Context {
 			return ctx
 		},

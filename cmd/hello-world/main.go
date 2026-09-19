@@ -44,4 +44,5 @@ func main() {
 func enableHelloWorldModule(_ context.Context, router *httprouter.Router) {
 	helloHandler := hello.New()
 	router.GET("/", helloHandler.HelloWorld)
+	router.GET("/env", helloHandler.Env)
 }
