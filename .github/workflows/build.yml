@@ -3,6 +3,7 @@ name: Build & Deploy Go App
 on:
   push:
     branches: [ "main" ]
+  workflow_call:
 
 permissions:
   contents: write
